@@ -5,11 +5,16 @@
 
 #include <string>
 #include "constants.h"
+#include "background.h"
 
 using namespace std::literals;
 
 // The main function for the program
 int main() {
+
+  // Create the game background object
+    background the_background(0.0f, 0.0f);
+
   // Create the game's window using an object of class RenderWindow
   // The constructor takes an SFML 2D vector with the window dimensions
   // and an std::string with the window title
@@ -44,9 +49,11 @@ int main() {
       game_window.close();
     
     // Calculate the updated graphics
+    the_background.update();
     // This space left intentionally blank!
     
     // Display the updated graphics
+    the_background.draw(game_window);
     game_window.display();
   }
 }
