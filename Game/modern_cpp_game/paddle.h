@@ -6,6 +6,8 @@
 class paddle : public movingEntity
 {
 	static sf::Texture texture;
+	
+	void processPlayerInput();
 
 public:
 	paddle(float x, float y);
