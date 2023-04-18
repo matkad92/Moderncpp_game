@@ -21,8 +21,10 @@
   <ItemGroup>
     <ClCompile Include="background.cpp" />
     <ClCompile Include="ball.cpp" />
+    <ClCompile Include="entity.cpp" />
     <ClCompile Include="main.cc" />
     <ClCompile Include="movingEntity.cpp" />
+    <ClCompile Include="paddle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="background.h" />
@@ -30,6 +32,7 @@
     <ClInclude Include="constants.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="movingEntity.h" />
+    <ClInclude Include="paddle.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

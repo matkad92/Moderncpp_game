@@ -8,6 +8,7 @@
 #include "constants.h"
 #include "background.h"
 #include "ball.h"
+#include "paddle.h"
 
 using namespace std::literals;
 
@@ -18,6 +19,7 @@ int main() {
     background the_background(0.0f, 0.0f);
   //create the ball:
     ball theBall(constants::window_width / 2.0f, constants::window_height / 2.0f); //putting in the middle of the screen
+    paddle thePaddle(constants::window_width / 2.0f, constants::window_height - constants::paddleHeight);
 
   // Create the game's window using an object of class RenderWindow
   // The constructor takes an SFML 2D vector with the window dimensions
@@ -55,11 +57,13 @@ int main() {
     // Calculate the updated graphics
     the_background.update();
     theBall.update();
+    thePaddle.update();
     // This space left intentionally blank!
     
     // Display the updated graphics
     the_background.draw(game_window);
     theBall.draw(game_window);
+    thePaddle.draw(game_window);
     game_window.display();
   }
 }
