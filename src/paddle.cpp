@@ -20,7 +20,6 @@ void paddle::processPlayerInput()
 
 paddle::paddle(float x, float y) : movingEntity()  //initialization list
 {
-	//Loading texture
 	texture.loadFromFile("img/paddle.png");
 
 	sprite.setTexture(texture);

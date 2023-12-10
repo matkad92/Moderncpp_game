@@ -3,7 +3,7 @@
 #include "constants.h"
 #include "entity.h"
 
-//class representing background
+
 
 class background : public entity {
 	
@@ -16,10 +16,7 @@ public:
 	//x increase to the right
 	background(float x, float y);
 
-	//Implementing pure virt functions from entity class:
 	void update() override;
 	void draw(sf::RenderWindow& window) override;
-
-
 
 };

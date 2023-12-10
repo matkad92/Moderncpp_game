@@ -8,7 +8,6 @@ class ball :
     static sf::Texture texture;
 
 public:
-    //coordinates works same as for background
     ball(float x, float y);
 
     void update() override;

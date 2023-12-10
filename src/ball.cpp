@@ -1,11 +1,10 @@
 #include "ball.h"
 
 
-sf::Texture ball::texture;//initializing data
+sf::Texture ball::texture;
 
-ball::ball(float x, float y): movingEntity()  //initialization list
+ball::ball(float x, float y): movingEntity()  
 {
-	//Loading texture
 	texture.loadFromFile("img/ball.png");
 
 	sprite.setTexture(texture);

@@ -1,6 +1,3 @@
-// Code for a "breakout" game
-// Based on a talk by Vittorio Romeo
-// Uses the SFML graphics library
 #include <SFML/Graphics.hpp>
 
 #include <string>
@@ -12,43 +9,27 @@
 
 using namespace std::literals;
 
-// The main function for the program
 int main() {
 
-  // Create the game background object
-    background the_background(0.0f, 0.0f);
-  //create the ball:
-    ball theBall(constants::window_width / 2.0f, constants::window_height / 2.0f); //putting in the middle of the screen
-    paddle thePaddle(constants::window_width / 2.0f, constants::window_height - constants::paddleHeight);
+  background the_background(0.0f, 0.0f);
 
-  // Create the game's window using an object of class RenderWindow
-  // The constructor takes an SFML 2D vector with the window dimensions
-  // and an std::string with the window title
-  // The SFML code is in the sf namespace
+  ball theBall(constants::window_width / 2.0f, constants::window_height / 2.0f); //putting in the middle of the screen
+  paddle thePaddle(constants::window_width / 2.0f, constants::window_height - constants::paddleHeight);
+
+
   sf::RenderWindow game_window{{constants::window_width, constants::window_height},
 			       "Simple Breakout Game Version 1"s,};
   
-  // Limit the framerate
-  // This allows other processes to run and reduces power consumption
-  game_window.setFramerateLimit(60);      // Max rate is 60 frames per second
+  game_window.setFramerateLimit(30);    
 
-  // Game loop
-  // Clear the screen
-  // Check for new events
-  // Calculate the updated graphics
-  // Display the updated graphics
   while (game_window.isOpen()) {
-    // Clear the screen
     game_window.clear(sf::Color::Black);
 
-    // Check for any events since the last loop iteration
     sf::Event event;
-    
-    // If the user pressed "Escape", or clicked on "close", we close the window
-    // This will terminate the program
+   
     while (game_window.pollEvent(event)) {
-	if (event.type == sf::Event::Closed)
-	  game_window.close();
+      if (event.type == sf::Event::Closed)
+        game_window.close();
     }
     
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
@@ -58,12 +39,12 @@ int main() {
     the_background.update();
     theBall.update();
     thePaddle.update();
-    // This space left intentionally blank!
     
     // Display the updated graphics
     the_background.draw(game_window);
     theBall.draw(game_window);
     thePaddle.draw(game_window);
+    
     game_window.display();
   }
 }
