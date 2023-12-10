@@ -30,11 +30,13 @@
 *.exe
 *.out
 *.app
+SFML_BrickGame
 
 #Folders
 .vs/
+.vscode/
 Game/.vs/
 Game/packages/
 Game/x64/
 x64
-img/
+
