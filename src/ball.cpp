@@ -10,7 +10,7 @@ ball::ball(float x, float y): movingEntity()
 	sprite.setTexture(texture);
 
 	sprite.setPosition(x, y);
-	velocity = { constants::ballSpeed, constants::ballSpeed}; //6 is set, meaning ball will move 6pix right and down
+	velocity = { constants::ballSpeed, constants::ballSpeed}; //6 is set
 }
 
 void ball::update()
@@ -27,3 +27,19 @@ void ball::draw(sf::RenderWindow& window)
 {
 	window.draw(sprite);
 }
+
+void ball::moveUp() noexcept
+{
+	velocity.y = -constants::ballSpeed;
+}
+
+void ball::moveLeft() noexcept
+{
+	velocity.y = -constants::ballSpeed;
+}
+
+void ball::moveRight() noexcept 
+{ 
+	velocity.y = constants::ballSpeed;
+}
+

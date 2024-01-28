@@ -6,6 +6,7 @@
 #include "background.h"
 #include "ball.h"
 #include "paddle.h"
+#include "interactions.h"
 
 using namespace std::literals;
 
@@ -39,6 +40,7 @@ int main() {
     the_background.update();
     theBall.update();
     thePaddle.update();
+    handleCollisions(theBall, thePaddle);
     
     // Display the updated graphics
     the_background.draw(game_window);

@@ -40,3 +40,16 @@ void paddle::draw(sf::RenderWindow& window)
 {
 	window.draw(sprite);
 }
+
+void paddle::moveUp() noexcept
+{}
+
+void paddle::moveLeft() noexcept
+{
+	velocity.y = -constants::ballSpeed;
+}
+
+void paddle::moveRight() noexcept 
+{ 
+	velocity.y = constants::ballSpeed;
+}
