@@ -58,9 +58,21 @@ int main() {
     thePaddle.update();
 
     for (auto& b : bricks)
+    {
       b.update();
+    }
 
     handleCollisions(theBall, thePaddle);
+
+    for(auto & b : bricks)
+    {
+      handleCollisions(theBall, b);
+    }
+
+    bricks.erase(std::remove_if(std::begin(bricks), std::end(bricks),
+            [](const brick& b){ return b.is_destroyed(); }),
+            std::end(bricks));
+
     
     // Display the updated graphics
     the_background.draw(game_window);

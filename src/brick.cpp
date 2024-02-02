@@ -9,6 +9,8 @@ brick::brick(float x, float y): entity()
 
     sprite.setPosition(x,y);
     sprite.setOrigin(get_centre());
+
+    destroyed = false;
 }
 
 void brick::update()

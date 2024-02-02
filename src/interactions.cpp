@@ -21,3 +21,37 @@ void handleCollisions(ball &b, const paddle &p)
             b.moveRight();
     }
 }
+
+void handleCollisions(ball &ball, brick &brick)
+{
+    if(!isInteracting(brick, ball))
+        return;
+
+    brick.destroy();
+
+    float leftOverlap = ball.right() - brick.left();
+    float rightOverlap = brick.right() - ball.left();
+    float topOverlap = ball.bottom() - brick.top();
+    float bottomOverlap = brick.bottom() - ball.top();
+
+    bool fromLeft = std::abs(leftOverlap) < std::abs(rightOverlap);
+    bool fromTop = std::abs(topOverlap) < std::abs(bottomOverlap);
+
+    float minXOverlap = fromLeft ? leftOverlap : rightOverlap;
+    float minYOverlap = fromTop ? topOverlap : bottomOverlap;
+
+    if(std::abs(minXOverlap) < std::abs(minYOverlap))
+    {
+        if(fromLeft)
+            ball.moveLeft();
+        else
+            ball.moveRight();
+    }
+    else 
+    {
+        if(fromTop)
+            ball.moveUp();
+        else
+            ball.moveDown();
+    }
+}
