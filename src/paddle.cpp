@@ -44,6 +44,9 @@ void paddle::draw(sf::RenderWindow& window)
 void paddle::moveUp() noexcept
 {}
 
+void paddle::moveDown() noexcept
+{}
+
 void paddle::moveLeft() noexcept
 {
 	velocity.y = -constants::ballSpeed;
