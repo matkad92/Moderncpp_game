@@ -1,32 +1,68 @@
+#include <algorithm>
+
 #include "game.h"
 #include "interactions.h"
 
-game::game()
-    : the_background(0.0f, 0.0f),  
-      theBall(constants::window_width / 2.0f, constants::window_height / 2.0f),  
-      thePaddle(constants::window_width / 2.0f, constants::window_height - constants::paddleHeight) 
+void EntityManager::refresh()
 {
-    for (int i = 0; i < constants::brickCols; ++i) 
+    //chceck if destroyed
+    for (auto& [type, aliasVector] : groupedEntities)
     {
 
-        for (int j = 0; j < constants:: brickRows; ++j) 
-        {
-            
-            float x = constants::brickOffset + (i + 1) * constants::brickWidth;
-            float y = (j + 1) * constants::brickHeight;
+        aliasVector.erase(std::remove_if(  //remove pointers from vector, objects are not destroyed
+                              std::begin(aliasVector),
+                              std::end(aliasVector),
+                              [](auto p){ return p->is_destroyed(); }
+                              ),
+                        std::end(aliasVector));
 
-            // Create the brick object cpp11 without copying
-            bricks.emplace_back(x, y);
-        }
     }
 
+    allEntities.erase(std::remove_if(//remove unique pointers from vector, owned objects are destroyed
+                          std::begin(allEntities),
+                          std::end(allEntities),
+                          [](const auto& p){ return p->is_destroyed(); }
+                          ),
+                      std::end(allEntities));
+
+
+}
+
+void EntityManager::clear()
+{
+    groupedEntities.clear();
+    allEntities.clear();
+}
+
+void EntityManager::update()
+{
+    for ( auto& e : allEntities)
+        e->update();
+}
+
+void EntityManager::draw(sf::RenderWindow &window)
+{
+    for ( auto& e : allEntities)
+        e->draw(window);
+}
+
+game::game()
+{
     state = gameState::running;
-    game_window.setFramerateLimit(30);  
+    game_window.setFramerateLimit(30);
 }
 
 void game::reset()
 {
-    for (int i = 0; i < constants::brickCols; ++i) 
+    state = gameState::paused;
+
+    manager.clear();
+
+    manager.create<background>(0.0f, 0.0f);
+    manager.create<ball>(constants::window_width / 2.0f, constants::window_height / 2.0f);
+    manager.create<paddle>(constants::window_width / 2.0f, constants::window_height - constants::paddleHeight);
+
+    for (int i = 0; i < constants::brickCols; ++i)
     {
 
         for (int j = 0; j < constants:: brickRows; ++j) 
@@ -35,15 +71,17 @@ void game::reset()
             float x = constants::brickOffset + (i + 1) * constants::brickWidth;
             float y = (j + 1) * constants::brickHeight;
 
-            // Create the brick object cpp11 without copying
-            bricks.emplace_back(x, y);
+            manager.create<brick>(x,y);
         }
     }
+
+    game_window.setFramerateLimit(30);
 }
 
 void game::run()
 {
     bool pause_key_active{false};
+    state = gameState::running;
 
     while (game_window.isOpen()) 
     {
@@ -56,16 +94,16 @@ void game::run()
             game_window.close();
         }
         
-        // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
-        // game_window.close();
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
+        game_window.close();
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) 
         {
 			if (!pause_key_active) {
 				if (state == gameState::paused)
-				state = gameState::running;
+                    state = gameState::running;
 				else
-				state = gameState::paused;
+                    state = gameState::paused;
 			}
 			pause_key_active = true;
 		}
@@ -77,38 +115,34 @@ void game::run()
 
         if( state != gameState::paused)
         {
-            // Calculate the updated graphics
-            the_background.update();
-            theBall.update();
-            thePaddle.update();
+            manager.update();
 
-            for (auto& b : bricks)
-            {
-                b.update();
-            }
+            manager.applyAll<ball>([this](auto& theBall)
+                                   {
+                                       manager.applyAll<brick>([&theBall] (auto& theBrick)
+                                                                {
+                                                                    handleCollisions(theBall, theBrick);
+                                                                });
 
-            handleCollisions(theBall, thePaddle);
+                                   });
 
-            for(auto & b : bricks)
-            {
-                handleCollisions(theBall, b);
-            }
+            manager.applyAll<ball>([this](auto& theBall)
+                                   {
+                                        manager.applyAll<paddle>([&theBall] (auto& thePaddle)
+                                        {
+                                            handleCollisions(theBall, thePaddle);
+                                    });
 
-            bricks.erase(std::remove_if(std::begin(bricks), std::end(bricks),
-                    [](const brick& b){ return b.is_destroyed(); }),
-                    std::end(bricks));
+                                });
+
+            manager.refresh();
         }
-        
-        // Display the updated graphics
-        the_background.draw(game_window);
-        theBall.draw(game_window);
-        thePaddle.draw(game_window);
 
-        for (auto b : bricks)
-            b.draw(game_window);
-        
+        manager.draw(game_window);
         game_window.display();
-  }
+    }
 
 
 }
+
+
