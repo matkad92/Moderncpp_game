@@ -26,8 +26,10 @@ void handleCollisions(ball &ball, brick &brick)
 {
     if(!isInteracting(brick, ball))
         return;
+    brick.weaken();
 
-    brick.destroy();
+    if(brick.isTooWeak())
+        brick.destroy();
 
     float leftOverlap = ball.right() - brick.left();
     float rightOverlap = brick.right() - ball.left();

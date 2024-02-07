@@ -1,9 +1,9 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <memory>
-#include <typeinfo>
-#include <vector>
+// #include <memory>
+// #include <typeinfo>
+// #include <vector>
 
 #include "background.h"
 #include "ball.h"
@@ -73,7 +73,9 @@ class game {
 
     enum class gameState {
         paused,
+        gameOver,
         running,
+        playerWins,
     };
 
     gameState state;
@@ -84,7 +86,6 @@ class game {
     void run();
 
 };
-
 
 
 

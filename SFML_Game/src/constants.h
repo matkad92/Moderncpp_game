@@ -11,9 +11,12 @@ struct constants {
 
   static constexpr float brickWidth{43.0f}; 
   static constexpr float brickHeight{20.0f}; 
-  static constexpr float brickOffset{brickWidth/2}; 
-  static constexpr int brickCols{10}; 
-  static constexpr int brickRows{4}; 
+  static constexpr float brickOffset{brickWidth/2};
+  static constexpr int brickCols{10};
+  static constexpr int brickRows{4};
+  static constexpr int brickStrenght{3};
+
+  static constexpr int playerLives{3};
 };
 
 #endif // CONSTANTS_H
