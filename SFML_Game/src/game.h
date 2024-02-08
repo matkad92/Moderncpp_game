@@ -78,7 +78,13 @@ class game {
         playerWins,
     };
 
+    sf::Font veranda;
+    sf::Text textState, textLives;
+
     gameState state;
+
+    int lives{constants::playerLives};
+
     public:
 
     game();
